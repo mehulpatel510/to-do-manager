@@ -11,8 +11,7 @@
       "eslint",
       "prettier --write ."
     ]
-  },
-  "author": "",
+  },"author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
