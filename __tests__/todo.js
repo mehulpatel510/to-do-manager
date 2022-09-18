@@ -1,13 +1,20 @@
+/* globals describe, expect, it, beforeAll, test */
+
 const todoList = require("../todo");
 
-const { all, markAsComplete, add, overdue, dueToday, dueLater, } = todoList();
+const { all, markAsComplete, add, overdue, dueToday, dueLater } = todoList();
+
+const today = new Date();
+const oneDay = 60 * 60 * 24 * 1000;
+const tomorrow = new Date(today.getTime() + 1 * oneDay);
+const yesterday = new Date(today.getTime() - 1 * oneDay)
 
 describe("Todolist Test Suite", () => {
   beforeAll(() => {
     add({
       title: "Test todo",
       completed: false,
-      dueDate: new Date().toLocaleDateString("en-CA"),
+      dueDate: today.toLocaleDateString("en-CA"),
     });
   });
   test("Should add new todo", () => {
@@ -15,7 +22,7 @@ describe("Todolist Test Suite", () => {
     add({
       title: "Test todo",
       completed: false,
-      dueDate: new Date().toLocaleDateString("en-CA"),
+      dueDate: today.toLocaleDateString("en-CA"),
     });
     expect(all.length).toBe(totalItemsCount + 1);
   });
@@ -24,30 +31,30 @@ describe("Todolist Test Suite", () => {
     markAsComplete(0);
     expect(all[0].completed).toBe(true);
   });
-  test("Should retrieve a overdue items",() => {
+  test("Should retrieve a overdue items", () => {
     const overdueItemsCount = overdue().length;
     add({
       title: "Test todo",
       completed: false,
-      dueDate: (new Date(new Date().setDate((new Date()).getDate() - 1))).toLocaleDateString("en-CA"),
+      dueDate: yesterday.toLocaleDateString("en-CA"),
     });
     expect(overdue().length).toBe(overdueItemsCount + 1);
   });
-  test("Should retrieve a due today items",() => {
+  test("Should retrieve a due today items", () => {
     const dueTodayItemsCount = dueToday().length;
     add({
       title: "Test todo",
       completed: false,
-      dueDate: new Date().toLocaleDateString("en-CA"),
+      dueDate: today.toLocaleDateString("en-CA"),
     });
     expect(dueToday().length).toBe(dueTodayItemsCount + 1);
   });
-  test("Should retrieve a due later items",() => {
+  test("Should retrieve a due later items", () => {
     const dueLaterItemsCount = dueLater().length;
     add({
       title: "Test todo",
       completed: false,
-      dueDate: (new Date(new Date().setDate((new Date()).getDate() + 1))).toLocaleDateString("en-CA"),
+      dueDate: tomorrow.toLocaleDateString("en-CA"),
     });
     expect(dueLater().length).toBe(dueLaterItemsCount + 1);
   });
