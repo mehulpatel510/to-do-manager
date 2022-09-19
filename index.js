@@ -102,4 +102,6 @@ const deleteItem = async (id) =>{
     await getSingleTodo();
     await updateItem(2);
     await deleteItem(2);
+    await getAllTodos();
+   
 })();
